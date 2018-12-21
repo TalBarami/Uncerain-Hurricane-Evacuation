@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Uncertain_Hurricane_Evacuation.GraphComponents
 {
-    interface IVertex
+    public interface IVertex
     {
+        int Id { get; }
+        string Name { get; }
         bool Flood { get; }
-        bool Evacuate { get; }
+        bool Evacuee { get; }
         List<IEdge> Connectors { get; }
         List<IVertex> Neighbors { get; }
+
+        double FloodProbability { get; }
     }
 }

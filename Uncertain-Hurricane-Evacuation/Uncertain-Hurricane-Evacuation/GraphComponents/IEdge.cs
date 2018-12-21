@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Uncertain_Hurricane_Evacuation.GraphComponents
+﻿namespace Uncertain_Hurricane_Evacuation.GraphComponents
 {
-    interface IEdge
+    public interface IEdge
     {
+        int Id { get; }
+        string Name { get; }
         IVertex V1 { get; }
         IVertex V2 { get; }
         double Weight { get; }
