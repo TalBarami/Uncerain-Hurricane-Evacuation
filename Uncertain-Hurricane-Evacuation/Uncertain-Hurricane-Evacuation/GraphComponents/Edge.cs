@@ -7,7 +7,6 @@
         public IVertex V1 { get; }
         public IVertex V2 { get; }
         public double Weight { get; }
-        public bool Blocked { get; }
 
         public Edge(int id, IVertex v1, IVertex v2, double weight)
         {
@@ -24,8 +23,7 @@
 
         public override string ToString()
         {
-            var b = Blocked ? "B" : "";
-            return $"E{Id}({V1},{V2})W{Weight}{b}";
+            return $"E{Id}({V1},{V2})W{Weight}";
         }
 
         protected bool Equals(Edge other)

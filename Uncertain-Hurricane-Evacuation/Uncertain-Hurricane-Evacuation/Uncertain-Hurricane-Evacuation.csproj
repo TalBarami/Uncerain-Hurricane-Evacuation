@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Environment\Simulator.cs" />
     <Compile Include="Part1\BayesianNetwork.cs" />
     <Compile Include="Part1\BayesianNode.cs" />
     <Compile Include="Part1\BlockageNode.cs" />
@@ -50,7 +51,6 @@
     <Compile Include="Part1\EvacueeNode.cs" />
     <Compile Include="Part1\FloodingNode.cs" />
     <Compile Include="Environment\Constants.cs" />
-    <Compile Include="Environment\Initializer.cs" />
     <Compile Include="GraphComponents\Edge.cs" />
     <Compile Include="GraphComponents\Graph.cs" />
     <Compile Include="GraphComponents\IEdge.cs" />
@@ -58,6 +58,10 @@
     <Compile Include="GraphComponents\IVertex.cs" />
     <Compile Include="GraphComponents\Vertex.cs" />
     <Compile Include="Parser\GraphParser.cs" />
+    <Compile Include="Part2\EnumerationInference.cs" />
+    <Compile Include="Part2\Evidence.cs" />
+    <Compile Include="Part2\Query.cs" />
+    <Compile Include="Part2\QueryResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

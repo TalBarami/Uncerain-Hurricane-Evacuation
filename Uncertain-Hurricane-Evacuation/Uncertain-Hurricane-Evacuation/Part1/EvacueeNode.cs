@@ -11,7 +11,7 @@ namespace Uncertain_Hurricane_Evacuation.Part1
         public IVertex V;
         public List<BlockageNode> BlockageNodes;
 
-        protected override string Name { get; }
+        public override string Name { get; }
 
         public EvacueeNode(IVertex v, List<BlockageNode> blockageNodes)
         {

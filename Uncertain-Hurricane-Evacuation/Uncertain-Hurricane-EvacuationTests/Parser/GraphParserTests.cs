@@ -14,10 +14,10 @@ namespace Uncertain_Hurricane_EvacuationTests.Parser
             Assert.AreEqual(4, graph.Vertices.Count);
             Assert.AreEqual(4, graph.Edges.Count);
 
-            Assert.AreEqual(0.2, graph.Vertex(1).FloodProbability);
-            Assert.AreEqual(0.4, graph.Vertex(2).FloodProbability);
-            Assert.AreEqual(0, graph.Vertex(3).FloodProbability);
-            Assert.AreEqual(0, graph.Vertex(4).FloodProbability);
+            Assert.AreEqual(0.2, graph.Vertex(1).FloodingProbability);
+            Assert.AreEqual(0.4, graph.Vertex(2).FloodingProbability);
+            Assert.AreEqual(0, graph.Vertex(3).FloodingProbability);
+            Assert.AreEqual(0, graph.Vertex(4).FloodingProbability);
 
             Assert.AreEqual(graph.Vertex(1), graph.Edge(1).V1);
             Assert.AreEqual(graph.Vertex(2), graph.Edge(1).V2);

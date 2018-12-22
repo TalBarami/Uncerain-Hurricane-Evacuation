@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Uncertain_Hurricane_Evacuation.GraphComponents;
+using Uncertain_Hurricane_Evacuation.Part2;
 
 namespace Uncertain_Hurricane_Evacuation.Part1
 {
@@ -11,6 +12,12 @@ namespace Uncertain_Hurricane_Evacuation.Part1
         public List<FloodingNode> FloodingNodes;
         public List<BlockageNode> BlockageNodes;
         public List<EvacueeNode> EvacueeNodes;
+
+        public List<BayesianNode> Nodes => new List<BayesianNode>()
+            .Concat(FloodingNodes)
+            .Concat(BlockageNodes)
+            .Concat(EvacueeNodes)
+            .ToList();
 
         public FloodingNode FloodingNode(IVertex v)
         {
@@ -22,6 +29,11 @@ namespace Uncertain_Hurricane_Evacuation.Part1
             return BlockageNodes.First(bn => bn.E == e);
         }
 
+        public EvacueeNode EvacueeNode(IVertex v)
+        {
+            return EvacueeNodes.First(en => en.V == v);
+        }
+
         public BayesianNetwork(IGraph graph)
         {
             Graph = graph;
@@ -31,9 +43,8 @@ namespace Uncertain_Hurricane_Evacuation.Part1
                 Graph.Vertices.Select(v => 
                     new EvacueeNode(v, v.Connectors.Select(BlockageNode)
                         .ToList())).ToList();
-
         }
-
+        
         public override string ToString()
         {
             var sb = new StringBuilder();

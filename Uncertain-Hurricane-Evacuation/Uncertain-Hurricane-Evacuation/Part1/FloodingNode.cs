@@ -4,7 +4,7 @@ namespace Uncertain_Hurricane_Evacuation.Part1
 {
     public class FloodingNode : BayesianNode
     {
-        protected override string Name { get; }
+        public override string Name { get; }
 
         public IVertex V;
         public FloodingNode(IVertex v)
@@ -12,7 +12,7 @@ namespace Uncertain_Hurricane_Evacuation.Part1
             V = v;
             Name = $"Flooding {V.Name}";
 
-            Table.Add(NewTuple(), 1 - V.FloodProbability);
+            Table.Add(NewTuple(), 1 - V.FloodingProbability);
             BuildTable();
         }
     }

@@ -7,6 +7,5 @@
         IVertex V1 { get; }
         IVertex V2 { get; }
         double Weight { get; }
-        bool Blocked { get; }
     }
 }

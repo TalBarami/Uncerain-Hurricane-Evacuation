@@ -8,9 +8,9 @@ namespace Uncertain_Hurricane_Evacuation.Part1
 {
     public abstract class BayesianNode
     {
-        protected abstract string Name { get; }
+        public abstract string Name { get; }
         protected List<BayesianNode> Parents;
-        protected int TupleSize => Parents.Count + 1;
+        public int TupleSize => Parents.Count + 1;
 
         public  Dictionary<BooleanTuple, double> Table;
         protected BayesianNode()

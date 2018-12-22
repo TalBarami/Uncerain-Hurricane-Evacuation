@@ -10,7 +10,7 @@ namespace Uncertain_Hurricane_Evacuation.Part1
         public IEdge E;
         public FloodingNode V1;
         public FloodingNode V2;
-        protected override string Name { get; }
+        public override string Name { get; }
 
 
         public BlockageNode(IEdge e, FloodingNode v1, FloodingNode v2)

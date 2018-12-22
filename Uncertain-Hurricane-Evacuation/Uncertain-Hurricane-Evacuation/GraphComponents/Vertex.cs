@@ -8,11 +8,7 @@ namespace Uncertain_Hurricane_Evacuation.GraphComponents
         public string Name => $"V{Id.ToString()}";
         public List<IEdge> Connectors { get; }
         public List<IVertex> Neighbors { get; }
-
-        public bool Flood { get; }
-        public bool Evacuee { get; }
-
-        public double FloodProbability { get; }
+        public double FloodingProbability { get; }
 
         public Vertex(int id) : this(id, 0)
         {
@@ -21,7 +17,7 @@ namespace Uncertain_Hurricane_Evacuation.GraphComponents
         public Vertex(int id, double floodProbability)
         {
             Id = id;
-            FloodProbability = floodProbability;
+            FloodingProbability = floodProbability;
 
             Connectors = new List<IEdge>();
             Neighbors = new List<IVertex>();

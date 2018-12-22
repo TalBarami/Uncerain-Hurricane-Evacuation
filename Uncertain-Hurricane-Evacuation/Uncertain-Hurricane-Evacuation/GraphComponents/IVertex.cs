@@ -6,11 +6,9 @@ namespace Uncertain_Hurricane_Evacuation.GraphComponents
     {
         int Id { get; }
         string Name { get; }
-        bool Flood { get; }
-        bool Evacuee { get; }
         List<IEdge> Connectors { get; }
         List<IVertex> Neighbors { get; }
 
-        double FloodProbability { get; }
+        double FloodingProbability { get; }
     }
 }
