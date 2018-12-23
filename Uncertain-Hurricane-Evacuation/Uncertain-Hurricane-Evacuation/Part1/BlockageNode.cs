@@ -25,6 +25,7 @@ namespace Uncertain_Hurricane_Evacuation.Part1
 
             var prob = 1 - Constants.BlockageProbability * (1 / E.Weight);
 
+            Table.Add(NewTuple(), 1 - Constants.LeakageProbability);
             Table.Add(NewTuple(1), prob);
             Table.Add(NewTuple(2), prob);
 

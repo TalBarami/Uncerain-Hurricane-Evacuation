@@ -14,7 +14,17 @@ namespace Uncertain_Hurricane_Evacuation.Part2
             var result = new List<QueryResult>();
             foreach (var q in query)
             {
-                result.Add(new QueryResult(q, EnumerateAll(network.Nodes, new List<Evidence>(evidences) {new Evidence(q.Node, q.Question)})));
+                var ev = evidences.FirstOrDefault(e => e.Node == q.Node);
+                if (ev != null)
+                {
+                    result.Add(new QueryResult(q, ev.Report ? 1.0 : 0.0));
+                }
+                else
+                {
+                    var u1 = EnumerateAll(network.Nodes, Extend(evidences, q.Node, true));
+                    var u2 = EnumerateAll(network.Nodes, Extend(evidences, q.Node, false));
+                    result.Add(new QueryResult(q, u1 / (u1 + u2)));
+                }
             }
             
             return result;
@@ -28,19 +38,36 @@ namespace Uncertain_Hurricane_Evacuation.Part2
             }
 
             var y = vars.First();
-            vars.Remove(y);
-            var tuple = BooleanTuple.Of(1, y.TupleSize);
+            var tuple = BooleanTuple.Of(0, y.TupleSize).Flip(0);
+            for (var i = 0; i < y.Parents.Count; i++)
+            {
+                var p = y.Parents[i];
+                var e = evidences.First(evidence => evidence.Node == p);
+                if (e.Report)
+                {
+                    tuple = tuple.Flip(i + 1);
+                }
+            }
 
-            if (evidences.Any(e => e.Node == y))
+            var ev = evidences.FirstOrDefault(e => e.Node == y);
+            var probability = y.Table[tuple];
+            if (ev != null)
             {
-                var ev = evidences.First(e => e.Node == y);
-                return y.Table[ev.Report ? tuple : tuple.Flip(0)] * EnumerateAll(vars, evidences);
+                return (ev.Report ? probability : 1 - probability) * EnumerateAll(Rest(vars, y), evidences);
             }
-            else
-            {
-                return y.Table[tuple] * EnumerateAll(vars, new List<Evidence>(evidences) {new Evidence(y, true)}) + 
-                       y.Table[tuple.Flip(0)] * EnumerateAll(vars, new List<Evidence>(evidences) { new Evidence(y, false) });
-            }
+
+            return probability * EnumerateAll(Rest(vars, y), Extend(evidences, y, true)) + 
+                   (1 - probability) * EnumerateAll(Rest(vars, y), Extend(evidences, y, false));
+        }
+
+        public static List<Evidence> Extend(List<Evidence> list, BayesianNode node, bool value)
+        {
+            return new List<Evidence>(list){new Evidence(node, value)};
+        }
+
+        public static List<BayesianNode> Rest(List<BayesianNode> list, BayesianNode first)
+        {
+            return list.Where(n => n != first).ToList();
         }
     }
 }

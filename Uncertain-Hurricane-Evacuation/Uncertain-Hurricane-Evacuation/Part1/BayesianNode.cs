@@ -9,7 +9,7 @@ namespace Uncertain_Hurricane_Evacuation.Part1
     public abstract class BayesianNode
     {
         public abstract string Name { get; }
-        protected List<BayesianNode> Parents;
+        public List<BayesianNode> Parents;
         public int TupleSize => Parents.Count + 1;
 
         public  Dictionary<BooleanTuple, double> Table;
@@ -28,7 +28,6 @@ namespace Uncertain_Hurricane_Evacuation.Part1
         {
             if (Parents.Count > 0)
             {
-                Table.Add(NewTuple(), 1 - Constants.LeakageProbability);
                 var length = Math.Pow(2, Parents.Count);
                 for (var i = 0; i < length; i++)
                 {

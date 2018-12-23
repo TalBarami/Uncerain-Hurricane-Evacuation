@@ -19,6 +19,7 @@ namespace Uncertain_Hurricane_Evacuation.Environment
         private readonly BayesianNetwork network;
         private readonly List<Evidence> evidences;
         private readonly UserAction[] commandsMapper;
+        private readonly UserFunction[] probabilisticReasoning;
 
         private bool active;
 
@@ -36,11 +37,27 @@ namespace Uncertain_Hurricane_Evacuation.Environment
                 UserAction.Of("Quit", Quit)
             };
 
+            probabilisticReasoning = new[]
+            {
+                UserFunction.Of("What is the probability that each of the vertices contains evacuees?", () => QueryNodes(network.EvacueeNodes)),
+                UserFunction.Of("What is the probability that each of the vertices is flooded?", () => QueryNodes(network.FloodingNodes)),
+                UserFunction.Of("What is the probability that each of the edges is blocked?", () => QueryNodes(network.BlockageNodes)),
+                UserFunction.Of("What is the probability that a certain path is free from blockages?", null),
+                UserFunction.Of(
+                    "What is the path from a given location to a goal that has the highest probability of being free from blockages?",
+                    null),
+                UserFunction.Of("All", () =>
+                    probabilisticReasoning[0].Action()
+                        .Concat(probabilisticReasoning[1].Action()).ToList()
+                        .Concat(probabilisticReasoning[2].Action()).ToList())
+            };
+
             Start();
         }
 
         private void Start()
         {
+            Console.WriteLine(graph);
             Console.WriteLine(network);
             active = true;
             while (active)
@@ -49,10 +66,10 @@ namespace Uncertain_Hurricane_Evacuation.Environment
                 do
                 {
                     Console.WriteLine("Please select one of the following:");
-                    Console.WriteLine(string.Join("\n", commandsMapper.Select((tuple, i) => $"\t{i}. {tuple.Name}")));
-                } while (!int.TryParse(Console.ReadLine(), out cmd));
+                    Console.WriteLine(string.Join("\n", commandsMapper.Select((tuple, i) => $"\t{i+1}. {tuple.Name}")));
+                } while (!int.TryParse(Console.ReadLine(), out cmd) || cmd < 1 || cmd > commandsMapper.Length);
 
-                commandsMapper[cmd].Action();
+                commandsMapper[cmd-1].Action();
             }
         }
 
@@ -93,26 +110,23 @@ namespace Uncertain_Hurricane_Evacuation.Environment
 
         private void ProbabilisticReasoning()
         {
-            foreach (var v in graph.Vertices)
+            int cmd;
+            do
             {
-                Console.WriteLine(ContainEvacuees(v));
-            }
-            foreach (var v in graph.Vertices)
-            {
-                Console.WriteLine(Flooded(v));
-            }
+                Console.WriteLine("Choose your query:");
+                Console.WriteLine(string.Join("\n", probabilisticReasoning.Select((tuple, i) => $"\t{i+1}. {tuple.Name}")));
+            } while (!int.TryParse(Console.ReadLine(), out cmd) || cmd < 1 || cmd > probabilisticReasoning.Length);
+
+            var result = probabilisticReasoning[cmd-1].Action();
+            result.ForEach(Console.WriteLine);
         }
 
-        public QueryResult ContainEvacuees(IVertex v)
+        public List<QueryResult> QueryNodes<T>(List<T> nodes) where T : BayesianNode
         {
-            var query = new Query(network.EvacueeNode(v), true);
-            return EnumerationInference.EnumerationAsk(network, new List<Query>{query}, evidences)[0];
-        }
-
-        public QueryResult Flooded(IVertex v)
-        {
-            var query = new Query(network.FloodingNode(v), true);
-            return EnumerationInference.EnumerationAsk(network, new List<Query> { query }, evidences)[0];
+            return EnumerationInference.EnumerationAsk(
+                network,
+                nodes.Select(n => new Query(n, true)).ToList(),
+                evidences);
         }
 
         private void Quit()
@@ -141,6 +155,23 @@ namespace Uncertain_Hurricane_Evacuation.Environment
             public static UserAction Of(string actionName, Action action)
             {
                 return new UserAction(actionName, action);
+            }
+        }
+
+        private class UserFunction
+        {
+            public string Name { get; }
+            public Func<List<QueryResult>> Action { get; }
+
+            private UserFunction(string name, Func<List<QueryResult>> action)
+            {
+                Name = name;
+                Action = action;
+            }
+
+            public static UserFunction Of(string actionName, Func<List<QueryResult>> action)
+            {
+                return new UserFunction(actionName, action);
             }
         }
     }

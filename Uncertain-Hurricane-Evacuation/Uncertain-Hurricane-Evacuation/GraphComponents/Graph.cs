@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Uncertain_Hurricane_Evacuation.GraphComponents
 {
@@ -20,6 +22,14 @@ namespace Uncertain_Hurricane_Evacuation.GraphComponents
         {
             Vertices = vertices;
             Edges = edges;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"Vertices: {string.Join(", ", Vertices)}");
+            sb.AppendLine($"Edges: {string.Join(", ", Edges)}");
+            return sb.ToString();
         }
     }
 }
