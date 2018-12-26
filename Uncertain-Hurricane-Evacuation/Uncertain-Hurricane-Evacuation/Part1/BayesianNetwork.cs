@@ -48,8 +48,8 @@ namespace Uncertain_Hurricane_Evacuation.Part1
         public override string ToString()
         {
             var sb = new StringBuilder();
-            var vertices = FloodingNodes.Select((node, i) => $"{node}\n{EvacueeNodes[i]}");
-            var edges = BlockageNodes;
+            var vertices = FloodingNodes.Select((node, i) => $"{node.TableToString()}\n{EvacueeNodes[i].TableToString()}");
+            var edges = BlockageNodes.Select(bn => bn.TableToString());
             sb.AppendLine(string.Join("\n", vertices));
             sb.AppendLine(string.Join("\n", edges));
 

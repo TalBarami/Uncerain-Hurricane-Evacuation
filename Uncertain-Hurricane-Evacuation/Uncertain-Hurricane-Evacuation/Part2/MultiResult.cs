@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Uncertain_Hurricane_Evacuation.Part2
 {
-    class QueryResult : IQueryResult
+    class MultiResult : IQueryResult
     {
-        public Query Query { get; }
+        public List<Query> Queries { get; }
         public double Result { get; }
 
-        public QueryResult(Query query, double result)
+        public MultiResult(List<Query> queries, double result)
         {
-            Query = query;
+            Queries = queries;
             Result = result;
         }
 
         public override string ToString()
         {
-            return $"{Query} with probability of {Result}";
+            return $"{string.Join(", ", Queries)} with probability of {Result}";
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Uncertain_Hurricane_Evacuation.Environment
                 UserFunction.Of("What is the probability that each of the vertices contains evacuees?", () => QueryNodes(network.EvacueeNodes)),
                 UserFunction.Of("What is the probability that each of the vertices is flooded?", () => QueryNodes(network.FloodingNodes)),
                 UserFunction.Of("What is the probability that each of the edges is blocked?", () => QueryNodes(network.BlockageNodes)),
-                UserFunction.Of("What is the probability that a certain path is free from blockages?", null),
+                UserFunction.Of("What is the probability that a certain path is free from blockages?", IsPathFree),
                 UserFunction.Of(
                     "What is the path from a given location to a goal that has the highest probability of being free from blockages?",
                     null),
@@ -76,6 +76,7 @@ namespace Uncertain_Hurricane_Evacuation.Environment
         private void Reset()
         {
             evidences.Clear();
+            Console.WriteLine("Cleared evidences.");
         }
 
         private void AddEvidence()
@@ -92,20 +93,32 @@ namespace Uncertain_Hurricane_Evacuation.Environment
                      !int.TryParse(input[1], out boolean) ||
                      !int.TryParse(input[2], out id));
 
-            var evidence = input[0];
+            var evidenceId = input[0];
             var report = Convert.ToBoolean(boolean);
-            switch (evidence)
+            Evidence evidence;
+            switch (evidenceId)
             {
                 case fid:
-                    evidences.Add(new Evidence(network.FloodingNode(graph.Vertex(id)), report));
+                    evidence = new Evidence(network.FloodingNode(graph.Vertex(id)), report);
                     break;
                 case eid:
-                    evidences.Add(new Evidence(network.EvacueeNode(graph.Vertex(id)), report));
+                    evidence = new Evidence(network.EvacueeNode(graph.Vertex(id)), report);
                     break;
                 case bid:
-                    evidences.Add(new Evidence(network.BlockageNode(graph.Edge(id)), report));
+                    evidence = new Evidence(network.BlockageNode(graph.Edge(id)), report);
                     break;
+                default:
+                    throw new Exception("Shouldn't happen");
             }
+
+            var ev = evidences.FirstOrDefault(e => e.Node == evidence.Node);
+            if (ev != null)
+            {
+                Console.WriteLine($"Evidences already contains {ev}, replacing with {evidence}");
+                evidences.Remove(ev);
+            }
+            evidences.Add(evidence);
+            Console.WriteLine($"Evidences: {string.Join(", ", evidences)}");
         }
 
         private void ProbabilisticReasoning()
@@ -121,17 +134,34 @@ namespace Uncertain_Hurricane_Evacuation.Environment
             result.ForEach(Console.WriteLine);
         }
 
-        public List<QueryResult> QueryNodes<T>(List<T> nodes) where T : BayesianNode
+        public List<IQueryResult> QueryNodes<T>(List<T> nodes) where T : BayesianNode
         {
-            return EnumerationInference.EnumerationAsk(
-                network,
-                nodes.Select(n => new Query(n, true)).ToList(),
-                evidences);
+            return nodes.Select(node => new Query(node, true))
+                .Select(query => EnumerationInference.EnumerationAsk(network, query, evidences))
+                .ToList();
         }
 
         private void Quit()
         {
             active = false;
+        }
+
+        private List<IQueryResult> IsPathFree()
+        {
+            string[] line;
+            do
+            {
+                Console.WriteLine("Enter path: <e1> <e2> ...");
+                line = Console.ReadLine()?.Split(' ');
+            } while (line == null || line.Length == 0 || line.Any(e => !int.TryParse(e, out _)));
+
+            return new List<IQueryResult>
+            {
+                EnumerationInference.EnumerationAsk(network,
+                    line.Select(int.Parse).Select(graph.Edge).Select(e => new Query(network.BlockageNode(e), false))
+                        .ToList(),
+                    evidences)
+            };
         }
 
         private readonly string requestEvidence = $"Add evidence using the format: <{fid}/{eid}/{bid}> <{t}/{f}> <id>";
@@ -161,15 +191,15 @@ namespace Uncertain_Hurricane_Evacuation.Environment
         private class UserFunction
         {
             public string Name { get; }
-            public Func<List<QueryResult>> Action { get; }
+            public Func<List<IQueryResult>> Action { get; }
 
-            private UserFunction(string name, Func<List<QueryResult>> action)
+            private UserFunction(string name, Func<List<IQueryResult>> action)
             {
                 Name = name;
                 Action = action;
             }
 
-            public static UserFunction Of(string actionName, Func<List<QueryResult>> action)
+            public static UserFunction Of(string actionName, Func<List<IQueryResult>> action)
             {
                 return new UserFunction(actionName, action);
             }

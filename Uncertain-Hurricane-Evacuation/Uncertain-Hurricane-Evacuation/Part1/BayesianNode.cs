@@ -9,6 +9,7 @@ namespace Uncertain_Hurricane_Evacuation.Part1
     public abstract class BayesianNode
     {
         public abstract string Name { get; }
+
         public List<BayesianNode> Parents;
         public int TupleSize => Parents.Count + 1;
 
@@ -63,6 +64,11 @@ namespace Uncertain_Hurricane_Evacuation.Part1
         }
 
         public override string ToString()
+        {
+            return Name;
+        }
+
+        public string TableToString()
         {
             var sb = new StringBuilder();
             foreach (var kv in Table)

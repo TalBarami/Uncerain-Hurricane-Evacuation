@@ -60,6 +60,8 @@
     <Compile Include="Parser\GraphParser.cs" />
     <Compile Include="Part2\EnumerationInference.cs" />
     <Compile Include="Part2\Evidence.cs" />
+    <Compile Include="Part2\IQueryResult.cs" />
+    <Compile Include="Part2\MultiResult.cs" />
     <Compile Include="Part2\Query.cs" />
     <Compile Include="Part2\QueryResult.cs" />
     <Compile Include="Program.cs" />

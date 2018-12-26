@@ -1,33 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Uncertain_Hurricane_Evacuation.Part1;
 
 namespace Uncertain_Hurricane_Evacuation.Part2
 {
     class EnumerationInference
     {
-        public static List<QueryResult> EnumerationAsk(BayesianNetwork network, List<Query> query, List<Evidence> evidences)
+
+        public static IQueryResult EnumerationAsk(BayesianNetwork network, List<Query> query,
+            List<Evidence> evidences)
         {
-            var result = new List<QueryResult>();
+            var pathEvidences = new List<Evidence>(evidences);
+            var prod = 1.0;
             foreach (var q in query)
             {
-                var ev = evidences.FirstOrDefault(e => e.Node == q.Node);
-                if (ev != null)
+                prod *= EnumerationAsk(network, q, pathEvidences).Result;
+                if (pathEvidences.All(e => e.Node != q.Node))
                 {
-                    result.Add(new QueryResult(q, ev.Report ? 1.0 : 0.0));
-                }
-                else
-                {
-                    var u1 = EnumerateAll(network.Nodes, Extend(evidences, q.Node, true));
-                    var u2 = EnumerateAll(network.Nodes, Extend(evidences, q.Node, false));
-                    result.Add(new QueryResult(q, u1 / (u1 + u2)));
+                    pathEvidences.Add(new Evidence(q.Node, false));
                 }
             }
-            
-            return result;
+
+            return new MultiResult(query, prod);
+        }
+
+        public static IQueryResult EnumerationAsk(BayesianNetwork network, Query query, List<Evidence> evidences)
+        {
+            var ev = evidences.FirstOrDefault(e => e.Node == query.Node);
+            if (ev != null)
+            {
+                return new QueryResult(query, ev.Report == query.Question ? 1.0 : 0.0);
+            }
+
+            var u1 = EnumerateAll(network.Nodes, Extend(evidences, query.Node, query.Question));
+            var u2 = EnumerateAll(network.Nodes, Extend(evidences, query.Node, !query.Question));
+            return new QueryResult(query, u1 / (u1 + u2));
         }
 
         public static double EnumerateAll(List<BayesianNode> vars, List<Evidence> evidences)

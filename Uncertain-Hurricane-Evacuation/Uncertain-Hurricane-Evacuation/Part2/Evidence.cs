@@ -12,5 +12,11 @@ namespace Uncertain_Hurricane_Evacuation.Part2
             Node = node;
             Report = report;
         }
+
+        public override string ToString()
+        {
+            var s = Report ? "" : "not ";
+            return $"{s}{Node.Name}";
+        }
     }
 }
