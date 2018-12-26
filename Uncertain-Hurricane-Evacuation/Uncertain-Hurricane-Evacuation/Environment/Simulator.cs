@@ -45,7 +45,7 @@ namespace Uncertain_Hurricane_Evacuation.Environment
                 UserFunction.Of("What is the probability that a certain path is free from blockages?", IsPathFree),
                 UserFunction.Of(
                     "What is the path from a given location to a goal that has the highest probability of being free from blockages?",
-                    null),
+                    BestPath),
                 UserFunction.Of("All", () =>
                     probabilisticReasoning[0].Action()
                         .Concat(probabilisticReasoning[1].Action()).ToList()
@@ -162,6 +162,27 @@ namespace Uncertain_Hurricane_Evacuation.Environment
                         .ToList(),
                     evidences)
             };
+        }
+
+        private List<IQueryResult> BestPath()
+        {
+            string[] line;
+            int id1, id2;
+            do
+            {
+                Console.WriteLine("Select two nodes: <v1> <v2>");
+                line = Console.ReadLine()?.Split(' ');
+            } while (line == null || line.Length != 2 || !int.TryParse(line[0], out id1) || !int.TryParse(line[1], out id2)
+                     || graph.Vertices.All(v => v.Id != id1) || graph.Vertices.All(v => v.Id != id2));
+
+            var v1 = graph.Vertex(id1);
+            var v2 = graph.Vertex(id2);
+            var paths = graph.Dfs(v1, v2).Select(path => path.Edges).ToList();
+            var results = paths.Select(edges => EnumerationInference.EnumerationAsk(network,
+                    edges.Select(e => new Query(network.BlockageNode(e), false)).ToList(),
+                    evidences)).ToList();
+            var max = results.Max(r => r.Result);
+            return results.Where(r => Math.Abs(r.Result - max) < double.Epsilon).ToList();
         }
 
         private readonly string requestEvidence = $"Add evidence using the format: <{fid}/{eid}/{bid}> <{t}/{f}> <id>";

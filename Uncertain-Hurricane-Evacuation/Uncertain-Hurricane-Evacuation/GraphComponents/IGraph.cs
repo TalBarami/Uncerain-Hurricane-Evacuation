@@ -10,5 +10,7 @@ namespace Uncertain_Hurricane_Evacuation.GraphComponents
         IVertex Vertex(int Id);
 
         IEdge Edge(int Id);
+
+        List<Path> Dfs(IVertex src, IVertex dst);
     }
 }
