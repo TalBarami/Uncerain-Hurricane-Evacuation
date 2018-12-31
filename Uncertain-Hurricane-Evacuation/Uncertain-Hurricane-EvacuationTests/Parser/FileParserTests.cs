@@ -4,12 +4,12 @@ using Uncertain_Hurricane_Evacuation.Parser;
 namespace Uncertain_Hurricane_EvacuationTests.Parser
 {
     [TestClass]
-    public class GraphParserTests
+    public class FileParserTests
     {
         [TestMethod]
-        public void ParseGraphTest()
+        public void ParseFileTest()
         {
-            var graph = new GraphParser().ParseGraph("../../Resources/exampleGraph.txt");
+            var graph = new FileParser().ParseFile("../../Resources/exampleGraph.txt");
 
             Assert.AreEqual(4, graph.Vertices.Count);
             Assert.AreEqual(4, graph.Edges.Count);

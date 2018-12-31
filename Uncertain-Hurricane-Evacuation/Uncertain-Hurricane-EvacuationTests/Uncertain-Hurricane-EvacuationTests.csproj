@@ -57,7 +57,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Part1\BayesianNetworkTests.cs" />
-    <Compile Include="Parser\GraphParserTests.cs" />
+    <Compile Include="Parser\FileParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

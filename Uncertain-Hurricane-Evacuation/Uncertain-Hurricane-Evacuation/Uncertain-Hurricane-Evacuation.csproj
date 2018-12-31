@@ -45,12 +45,12 @@
   <ItemGroup>
     <Compile Include="Environment\Simulator.cs" />
     <Compile Include="GraphComponents\Path.cs" />
-    <Compile Include="Part1\BayesianNetwork.cs" />
-    <Compile Include="Part1\BayesianNode.cs" />
-    <Compile Include="Part1\BlockageNode.cs" />
-    <Compile Include="Part1\BooleanTuple.cs" />
-    <Compile Include="Part1\EvacueeNode.cs" />
-    <Compile Include="Part1\FloodingNode.cs" />
+    <Compile Include="BayesNetwork\BayesianNetwork.cs" />
+    <Compile Include="BayesNetwork\BayesianNode.cs" />
+    <Compile Include="BayesNetwork\BlockageNode.cs" />
+    <Compile Include="BayesNetwork\BooleanTuple.cs" />
+    <Compile Include="BayesNetwork\EvacueeNode.cs" />
+    <Compile Include="BayesNetwork\FloodingNode.cs" />
     <Compile Include="Environment\Constants.cs" />
     <Compile Include="GraphComponents\Edge.cs" />
     <Compile Include="GraphComponents\Graph.cs" />
@@ -58,13 +58,13 @@
     <Compile Include="GraphComponents\IGraph.cs" />
     <Compile Include="GraphComponents\IVertex.cs" />
     <Compile Include="GraphComponents\Vertex.cs" />
-    <Compile Include="Parser\GraphParser.cs" />
-    <Compile Include="Part2\EnumerationInference.cs" />
-    <Compile Include="Part2\Evidence.cs" />
-    <Compile Include="Part2\IQueryResult.cs" />
-    <Compile Include="Part2\MultiResult.cs" />
-    <Compile Include="Part2\Query.cs" />
-    <Compile Include="Part2\QueryResult.cs" />
+    <Compile Include="Parser\FileParser.cs" />
+    <Compile Include="Enumeration\EnumerationInference.cs" />
+    <Compile Include="Enumeration\Evidence.cs" />
+    <Compile Include="Enumeration\IQueryResult.cs" />
+    <Compile Include="Enumeration\MultiResult.cs" />
+    <Compile Include="Enumeration\Query.cs" />
+    <Compile Include="Enumeration\QueryResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

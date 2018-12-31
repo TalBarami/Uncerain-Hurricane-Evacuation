@@ -6,14 +6,14 @@ using Uncertain_Hurricane_Evacuation.GraphComponents;
 
 namespace Uncertain_Hurricane_Evacuation.Parser
 {
-    public class GraphParser
+    public class FileParser
     {
         private const string Vertex = "#V";
         private const string Edge = "#E";
         private const char Whitespace = ' ';
         private const char Comment = ';';
 
-        public IGraph ParseGraph(string path)
+        public IGraph ParseFile(string path)
         {
             return CreateGraphFromStringList(File.ReadAllLines(path).ToList());
         }

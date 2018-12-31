@@ -1,6 +1,6 @@
 ﻿using Uncertain_Hurricane_Evacuation.GraphComponents;
 
-namespace Uncertain_Hurricane_Evacuation.Part1
+namespace Uncertain_Hurricane_Evacuation.BayesNetwork
 {
     public class FloodingNode : BayesianNode
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Uncertain_Hurricane_Evacuation.Part1
+namespace Uncertain_Hurricane_Evacuation.BayesNetwork
 {
     public class BooleanTuple
     {

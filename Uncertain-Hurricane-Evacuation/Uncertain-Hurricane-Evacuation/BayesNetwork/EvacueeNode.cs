@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Uncertain_Hurricane_Evacuation.Environment;
 using Uncertain_Hurricane_Evacuation.GraphComponents;
 
-namespace Uncertain_Hurricane_Evacuation.Part1
+namespace Uncertain_Hurricane_Evacuation.BayesNetwork
 {
     public class EvacueeNode : BayesianNode
     {
@@ -13,7 +11,7 @@ namespace Uncertain_Hurricane_Evacuation.Part1
 
         public override string Name { get; }
 
-        public EvacueeNode(IVertex v, List<BlockageNode> blockageNodes)
+        public EvacueeNode(IVertex v, IReadOnlyCollection<BlockageNode> blockageNodes)
         {
             V = v;
             Name = $"Evacuee {V.Name}";

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Uncertain_Hurricane_Evacuation.Part1;
+using Uncertain_Hurricane_Evacuation.BayesNetwork;
 
-namespace Uncertain_Hurricane_Evacuation.Part2
+namespace Uncertain_Hurricane_Evacuation.Enumeration
 {
     class EnumerationInference
     {
-
         public static IQueryResult EnumerationAsk(BayesianNetwork network, List<Query> query,
             List<Evidence> evidences)
         {

@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Text;
 using Uncertain_Hurricane_Evacuation.GraphComponents;
-using Uncertain_Hurricane_Evacuation.Part2;
 
-namespace Uncertain_Hurricane_Evacuation.Part1
+namespace Uncertain_Hurricane_Evacuation.BayesNetwork
 {
     public class BayesianNetwork
     {

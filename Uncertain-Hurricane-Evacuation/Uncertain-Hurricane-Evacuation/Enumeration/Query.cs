@@ -1,6 +1,6 @@
-﻿using Uncertain_Hurricane_Evacuation.Part1;
+﻿using Uncertain_Hurricane_Evacuation.BayesNetwork;
 
-namespace Uncertain_Hurricane_Evacuation.Part2
+namespace Uncertain_Hurricane_Evacuation.Enumeration
 {
     public class Query
     {

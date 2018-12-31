@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Uncertain_Hurricane_Evacuation.BayesNetwork;
 using Uncertain_Hurricane_Evacuation.GraphComponents;
 using Uncertain_Hurricane_Evacuation.Parser;
-using Uncertain_Hurricane_Evacuation.Part1;
 
 namespace Uncertain_Hurricane_EvacuationTests.Part1
 {
@@ -17,7 +17,7 @@ namespace Uncertain_Hurricane_EvacuationTests.Part1
         [TestInitialize]
         public void SetUp()
         {
-            graph = new GraphParser().ParseGraph("../../Resources/exampleGraph.txt");
+            graph = new FileParser().ParseFile("../../Resources/exampleGraph.txt");
             network = new BayesianNetwork(graph);
         }
 

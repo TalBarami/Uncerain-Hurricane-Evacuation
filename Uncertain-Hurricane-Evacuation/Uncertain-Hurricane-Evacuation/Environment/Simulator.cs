@@ -5,11 +5,11 @@ using System.Runtime.Remoting;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using Uncertain_Hurricane_Evacuation.BayesNetwork;
+using Uncertain_Hurricane_Evacuation.Enumeration;
 using Uncertain_Hurricane_Evacuation.GraphComponents;
 using Uncertain_Hurricane_Evacuation.Parser;
-using Uncertain_Hurricane_Evacuation.Part1;
-using Uncertain_Hurricane_Evacuation.Part2;
-using Evidence = Uncertain_Hurricane_Evacuation.Part2.Evidence;
+using Evidence = Uncertain_Hurricane_Evacuation.Enumeration.Evidence;
 
 namespace Uncertain_Hurricane_Evacuation.Environment
 {
@@ -25,7 +25,7 @@ namespace Uncertain_Hurricane_Evacuation.Environment
 
         public Simulator(string path)
         {
-            graph = new GraphParser().ParseGraph(path);
+            graph = new FileParser().ParseFile(path);
             network = new BayesianNetwork(graph);
             evidences = new List<Evidence>();
 
